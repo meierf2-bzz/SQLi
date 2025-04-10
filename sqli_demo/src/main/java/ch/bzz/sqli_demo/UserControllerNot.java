@@ -36,20 +36,19 @@ public class UserControllerNot {
 
         List<User> users = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-
-
              Statement statement = connection.createStatement()) {
 
-            String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'";
+            if (username != null && password != null) {
+                String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'";
+                ResultSet resultSet = statement.executeQuery(query);
 
-            ResultSet resultSet = statement.executeQuery(query);
-
-            while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getLong("id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                users.add(user);
+                while (resultSet.next()) {
+                    User user = new User();
+                    user.setId(resultSet.getLong("id"));
+                    user.setUsername(resultSet.getString("username"));
+                    user.setPassword(resultSet.getString("password"));
+                    users.add(user);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,12 +56,10 @@ public class UserControllerNot {
 
         model.addAttribute("users", users);
 
-        System.out.println("Users: " + users);
-
         if (users.size() == 1) {
             return "welcome";
         } else {
-            if (!username.equals("") && !password.equals("")) {
+            if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
                 model.addAttribute("error", "Password wrong or user not found");
             }
             return "indexNot";
