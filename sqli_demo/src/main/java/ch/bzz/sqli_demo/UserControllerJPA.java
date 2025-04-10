@@ -27,18 +27,19 @@ public class UserControllerJPA {
         System.out.println("Username: " + username);
         System.out.println("Password: " + password);
 
-        if (username == null || password == null) {
-            model.addAttribute("error", "Username or password is missing");
-            return "indexJpa";
+        Users users = null;
+        if (username != null && password != null) {
+            users = userRepository.findByUsernameAndPassword(username, password);
         }
 
-        User user = userRepository.findByUsernameAndPassword(username.toLowerCase(), password);
+        System.out.println("User: " + users);
 
-        if (user != null) {
-            System.out.println("User: " + user);
+        if (users != null) {
             return "welcome";
         } else {
-            model.addAttribute("error", "Password wrong or user not found");
+            if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
+                model.addAttribute("error", "Password wrong or user not found");
+            }
             return "indexJpa";
         }
     }

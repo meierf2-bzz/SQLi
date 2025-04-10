@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 @Getter
 @Setter
 @Entity
-public class User {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

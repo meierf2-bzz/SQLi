@@ -34,7 +34,7 @@ public class UserController {
         System.out.println("Username: " + username);
         System.out.println("Password: " + password);
 
-        List<User> users = new ArrayList<>();
+        List<Users> users = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
 
              //prep
@@ -45,7 +45,7 @@ public class UserController {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                User user = new User();
+                Users user = new Users();
                 user.setId(resultSet.getLong("id"));
                 user.setUsername(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("password"));
